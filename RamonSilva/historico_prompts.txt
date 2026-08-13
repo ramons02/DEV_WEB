@@ -1,0 +1,25 @@
+
+Projeto: Portfólio Dev (Ramon Silva)
+Pasta: RamonSilva/
+Arquivos: portifolio.html, style.css, imagens/home.jpg
+
+----------------------------------------------------------
+1. "quero que meu menu seja navegavel quando descer a tela ele navegue"
+   O que fizemos: O menu agora fica "grudado" no topo da tela.
+   Mesmo rolando a página, ele continua aparecendo.
+
+   
+
+----------------------------------------------------------
+2. "no EMAIL QUERO QUE SEJA CLICAVEL PARA MEU email : ramonsillva70@gmail.com"
+   O que fizemos: O "Email" no rodapé virou um link que abre
+   o programa de e-mail já com o endereço preenchido.
+
+  
+
+----------------------------------------------------------
+3. "no lugar incluir um foto de perfil"
+   O que fizemos: Colocamos a foto (imagens/home.jpg) no lugar
+   do texto removido, com formato redondo e borda colorida.
+
+ 
