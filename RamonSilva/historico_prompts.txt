@@ -1,4 +1,3 @@
-
 Projeto: Portfólio Dev (Ramon Silva)
 Pasta: RamonSilva/
 Arquivos: portifolio.html, style.css, imagens/home.jpg
@@ -8,18 +7,72 @@ Arquivos: portifolio.html, style.css, imagens/home.jpg
    O que fizemos: O menu agora fica "grudado" no topo da tela.
    Mesmo rolando a página, ele continua aparecendo.
 
-   
+   ANTES (sem CSS):
+   - O menu ficava só no topo da página. Ao rolar para baixo,
+     ele sumia da tela.
+   - Ao clicar em um link (ex: Projetos), a página "pulava"
+     direto para a seção, sem animação.
+
+   DEPOIS (com CSS):
+   - O menu acompanha a rolagem e permanece sempre visível
+     no topo (position: sticky; top: 0).
+   - O menu fica acima de qualquer conteúdo (z-index: 10).
+   - A rolagem até as seções ficou suave (scroll-behavior: smooth).
+
+   O QUE MUDOU NO style.css:
+   nav#menu {
+       position: sticky;
+       top: 0;
+       z-index: 10;
+   }
+   html {
+       scroll-behavior: smooth;
+   }
 
 ----------------------------------------------------------
 2. "no EMAIL QUERO QUE SEJA CLICAVEL PARA MEU email : ramonsillva70@gmail.com"
    O que fizemos: O "Email" no rodapé virou um link que abre
    o programa de e-mail já com o endereço preenchido.
 
-  
+   ANTES (sem link):
+   - O "Email" era apenas um texto comum no rodapé, sem
+   - nenhuma ação ao clicar.
+
+   DEPOIS (com link):
+   - Virou um link clicável (href="mailto:...") que abre o
+     e-mail já com o destinatário preenchido.
+
+   O QUE MUDOU NO portifolio.html:
+   <a href="mailto:ramonsillva70@gmail.com">Email</a>
+   (depois trocamos para abrir direto no Gmail.com)
+
+   O CSS ajudou no visual: o link ficou branco no rodapé
+   escuro (footer#rodape a { color: #fff; }), com destaque
+   ao passar o mouse (a:hover { text-decoration: underline; }).
 
 ----------------------------------------------------------
 3. "no lugar incluir um foto de perfil"
    O que fizemos: Colocamos a foto (imagens/home.jpg) no lugar
    do texto removido, com formato redondo e borda colorida.
 
- 
+   ANTES (sem CSS na foto):
+   - A foto apareceria do tamanho original, quadrada, sem
+     nenhum estilo.
+
+   DEPOIS (com CSS):
+   - A foto ficou redonda (border-radius: 50%).
+   - Preenche o círculo inteiro sem esticar nem distorcer
+     (object-fit: cover).
+   - Tamanho fixo de 160px (width e height).
+   - Moldura azul ao redor (border: 4px solid).
+   - Espaço abaixo da foto antes do título (margin-bottom).
+
+   O QUE MUDOU NO style.css:
+   #foto-perfil {
+       width: 160px;
+       height: 160px;
+       border-radius: 50%;
+       object-fit: cover;
+       border: 4px solid var(--cor-secundaria);
+       margin-bottom: 1.5rem;
+   }
