@@ -4,34 +4,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Area Restrita</title>
+    <title>Area Restrita - CRUD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #e94560;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .welcome-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .welcome-text {
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .welcome-text span {
+            color: #e94560;
+            font-weight: bold;
+        }
+
+        /* CRUD Form */
+        .crud-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .crud-section h2 {
+            color: #e94560;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e94560;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #4a5568;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #e94560;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #e94560;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #d63351;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #4a5568;
+            color: white;
+            margin-right: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: #2d3748;
+        }
+
+        .btn-success {
+            background: #38a169;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2f855c;
+        }
+
+        .btn-danger {
+            background: #e53e3e;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c53030;
+        }
+
+        /* Users Table */
+        .users-table {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #e94560;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #4a5568;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .action-links a {
+            color: #e94560;
+            margin-right: 0.5rem;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .action-links a:hover {
+            text-decoration: underline;
+        }
+
+        .action-links .btn-edit {
+            color: #38a169;
+        }
+
+        .action-links .btn-delete {
+            color: #e53e3e;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #7f8c8d;
+        }
+    </style>
 </head>
 
-<body onload="carregarDados()">
-    <div> Seja Bem Vindo 
-        <span id="labelLogin">XXX</span>
+<body>
+
+    <div class="container">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h1>Area Restrita</h1>
+            <p>Seja bem vindo, <span id="usernameDisplay">Usuario</span></p>
+        </div>
+
+        <!-- CRUD Section -->
+        <div class="crud-section">
+            <h2>Cadastrar Novo Usuario</h2>
+
+            <div class="form-group">
+                <label for="nome">Nome Completo</label>
+                <input type="text" id="nome" placeholder="Digite o nome">
+            </div>
+
+            <div class="form-group">
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" placeholder="Digite o telefone">
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" placeholder="Digite o e-mail">
+            </div>
+
+            <div class="form-group">
+                <label for="experiencias">Experiencias</label>
+                <textarea id="experiencias" placeholder="Descreva suas experiencias"></textarea>
+            </div>
+
+            <button class="btn btn-primary" onclick="salvarUsuario()">Salvar Usuario</button>
+        </div>
+
+        <!-- Users Table -->
+        <div class="users-table">
+            <h2>Usuarios Cadastrados</h2>
+
+            <table id="usersTable">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>E-mail</th>
+                        <th>Experiencias</th>
+                        <th>Acoes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dados serao inseridos via JavaScript -->
+                </tbody>
+            </table>
+
+            <div id="emptyState" class="empty-state">
+                Nao ha usuarios cadastrados
+            </div>
+        </div>
     </div>
 
-    <form>
-        <label for="nome">Nome</label>
-        <input id="nome" type="text" placeholder="Digite seu nome" value="Ramon Silva">
-    </form>
-    <br>
-    <form>
-        <label for="nomeCompleto">Nome Completo</label>
-        <input id="nomeCompleto" type="text" placeholder="Digite seu nome" value="Ramon Silva">
-    </form>
-
     <script>
-        const carregarDados = () => {
-            document.getElementById("labelLogin").innerText 
-                = localStorage.getItem("usuario")
+        // Inicializar LocalStorage se nao existir
+        if (!localStorage.getItem('usuarios')) {
+            localStorage.setItem('usuarios', JSON.stringify([]));
         }
-        const salvarDados = () => {
-            nomeUsuario = document.getElementById("nome").value
-            localStorage.setItem("usuario", nomeUsuario)
+
+        let usuarios = JSON.parse(localStorage.getItem('usuarios'));
+
+        // Funcao para salvar usuario
+        function salvarUsuario() {
+            const nome = document.getElementById('nome').value.trim();
+            const telefone = document.getElementById('telefone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const experiencias = document.getElementById('experiencias').value.trim();
+
+            if (nome === '' || email === '') {
+                alert('Por favor, preencha pelo menos o nome e e-mail');
+                return;
+            }
+
+            const novoUsuario = {
+                id: Date.now(),
+                nome: nome,
+                telefone: telefone,
+                email: email,
+                experiencias: experiencias,
+                dataCadastro: new Date().toLocaleDateString('pt-BR')
+            };
+
+            usuarios.push(novoUsuario);
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+            // Limpar formulario
+            document.getElementById('nome').value = '';
+            document.getElementById('telefone').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('experiencias').value = '';
+
+            carregarUsuarios();
         }
+
+        // Funcao para carregar usuarios na tabela
+        function carregarUsuarios() {
+            const tbody = document.querySelector('#usersTable tbody');
+            const emptyState = document.getElementById('emptyState');
+
+            // Limpar tabela
+            tbody.innerHTML = '';
+
+            if (usuarios.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            usuarios.forEach((usuario, index) => {
+                const tr = document.createElement('tr');
+
+                // Se for o usuario logado, destacar
+                const ehUsuarioLogado = usuario.nome === getUsernameLogado();
+
+                tr.innerHTML = `
+                    <td style="font-weight: ${ehUsuarioLogado ? 'bold' : 'normal'}">
+                        ${ehUsuarioLogado ? '••• ' : ''}${usuario.nome}
+                    </td>
+                    <td>${usuario.telefone || 'N/A'}</td>
+                    <td>${usuario.email}</td>
+                    <td>${usuario.experiencias || 'N/A'}</td>
+                    <td>
+                        <div class="action-links">
+                            <a href="#" onclick="editarUsuario(${usuario.id})">Editar</a>
+                            <a href="#" onclick="excluirUsuario(${usuario.id})">Excluir</a>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Funcao para get username logado do localStorage
+        function getUsernameLogado() {
+            const usuarioLogado = localStorage.getItem('usuario');
+            return usuarioLogado || 'Convidado';
+        }
+
+        // Exibir username na tela
+        document.getElementById('usernameDisplay').innerText = getUsernameLogado();
+
+        // Funcao para editar usuario
+        function editarUsuario(id) {
+            const usuario = usuarios.find(u => u.id === id);
+            if (!usuario) return;
+
+            const novoNome = prompt('Editar nome:', usuario.nome);
+            if (novoNome === null || novoNome.trim() === '') return;
+
+            usuario.nome = novoNome.trim();
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+            carregarUsuarios();
+        }
+
+        // Funcao para excluir usuario
+        function excluirUsuario(id) {
+            if (confirm('Tem certeza que deseja excluir este usuario?')) {
+                usuarios = usuarios.filter(u => u.id !== id);
+                localStorage.setItem('usuarios', JSON.stringify(usuarios));
+                carregarUsuarios();
+            }
+        }
+
+        // Inicializar ao carregar pagina
+        carregarUsuarios();
     </script>
+
 </body>
 
 </html>

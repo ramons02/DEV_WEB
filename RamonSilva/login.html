@@ -328,10 +328,10 @@
                 document.getElementById("senha").value;
 
 
-            if ((usuario == "") || (senha == "")) {
+            if ( (senha == "")) {
                 alert("Digite os dados");
             } else {
-                if (usuario === "1" && senha === "1") {
+                if ( senha === "1") {
                     alert('Vamos entrar');
                     localStorage.setItem("usuario", usuario);
                     document.location.href = "arearestrita.htm";
@@ -342,6 +342,10 @@
 
 
 
+        }
+         const salvarDados = () => {
+            nomeUsuario = document.getElementById("usuario").value
+            localStorage.setItem("usuario", nomeUsuario)
         }
 
         // // Arrow function 
