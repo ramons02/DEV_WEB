@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Area Restrita - CRUD</title>
+    <title>Area Restrita - Perfil</title>
     
 </head>
 
@@ -14,174 +14,83 @@
         <!-- Welcome Section -->
         <div class="welcome-section">
             <h1>Area Restrita</h1>
-            <p>Seja bem vindo, <span id="usernameDisplay">Usuario</span></p>
+            <p class="welcome-text">Seja bem vindo, <span id="usernameDisplay">Usuario</span></p>
+
+            <div id="alertArea"></div>
         </div>
 
-        <!-- CRUD Section -->
-        <div class="crud-section">
-            <h2>Cadastrar Novo Usuario</h2>
-
-            <div class="form-group">
-                <label for="nome">Nome Completo</label>
-                <input type="text" id="nome" placeholder="Digite o nome">
-            </div>
-
-            <div class="form-group">
-                <label for="telefone">Telefone</label>
-                <input type="tel" id="telefone" placeholder="Digite o telefone">
-            </div>
-
-            <div class="form-group">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" placeholder="Digite o e-mail">
-            </div>
-
-            <div class="form-group">
-                <label for="experiencias">Experiencias</label>
-                <textarea id="experiencias" placeholder="Descreva suas experiencias"></textarea>
-            </div>
-
-            <button class="btn btn-primary" onclick="salvarUsuario()">Salvar Usuario</button>
+        <!-- Profile Form -->
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" placeholder="Primeiro nome">
         </div>
 
-        <!-- Users Table -->
-        <div class="users-table">
-            <h2>Usuarios Cadastrados</h2>
-
-            <table id="usersTable">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Telefone</th>
-                        <th>E-mail</th>
-                        <th>Experiencias</th>
-                        <th>Acoes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dados serao inseridos via JavaScript -->
-                </tbody>
-            </table>
-
-            <div id="emptyState" class="empty-state">
-                Nao ha usuarios cadastrados
-            </div>
+        <div class="form-group">
+            <label for="nomecompleto">Nome Completo</label>
+            <input type="text" id="nomecompleto" placeholder="Nome completo">
         </div>
+
+        <button class="btn btn-primary" onclick="salvarPerfil()">Salvar Perfil</button>
     </div>
 
     <script>
-        // Inicializar LocalStorage se nao existir
-        if (!localStorage.getItem('usuarios')) {
-            localStorage.setItem('usuarios', JSON.stringify([]));
-        }
-
-        let usuarios = JSON.parse(localStorage.getItem('usuarios'));
-
-        // Funcao para salvar usuario
-        function salvarUsuario() {
-            const nome = document.getElementById('nome').value.trim();
-            const telefone = document.getElementById('telefone').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const experiencias = document.getElementById('experiencias').value.trim();
-
-            if (nome === '' || email === '') {
-                alert('Por favor, preencha pelo menos o nome e e-mail');
-                return;
-            }
-
-            const novoUsuario = {
-                id: Date.now(),
-                nome: nome,
-                telefone: telefone,
-                email: email,
-                experiencias: experiencias,
-                dataCadastro: new Date().toLocaleDateString('pt-BR')
-            };
-
-            usuarios.push(novoUsuario);
-            localStorage.setItem('usuarios', JSON.stringify(usuarios));
-
-            // Limpar formulario
-            document.getElementById('nome').value = '';
-            document.getElementById('telefone').value = '';
-            document.getElementById('email').value = '';
-            document.getElementById('experiencias').value = '';
-
-            carregarUsuarios();
-        }
-
-        // Funcao para carregar usuarios na tabela
-        function carregarUsuarios() {
-            const tbody = document.querySelector('#usersTable tbody');
-            const emptyState = document.getElementById('emptyState');
-
-            // Limpar tabela
-            tbody.innerHTML = '';
-
-            if (usuarios.length === 0) {
-                emptyState.style.display = 'block';
-                return;
-            }
-
-            emptyState.style.display = 'none';
-
-            usuarios.forEach((usuario, index) => {
-                const tr = document.createElement('tr');
-
-                // Se for o usuario logado, destacar
-                const ehUsuarioLogado = usuario.nome === getUsernameLogado();
-
-                tr.innerHTML = `
-                    <td style="font-weight: ${ehUsuarioLogado ? 'bold' : 'normal'}">
-                        ${ehUsuarioLogado ? '••• ' : ''}${usuario.nome}
-                    </td>
-                    <td>${usuario.telefone || 'N/A'}</td>
-                    <td>${usuario.email}</td>
-                    <td>${usuario.experiencias || 'N/A'}</td>
-                    <td>
-                        <div class="action-links">
-                            <a href="#" onclick="editarUsuario(${usuario.id})">Editar</a>
-                            <a href="#" onclick="excluirUsuario(${usuario.id})">Excluir</a>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // Funcao para get username logado do localStorage
-        function getUsernameLogado() {
+        // Verificar se usuario já está logado e exibir nome
+        document.addEventListener('DOMContentLoaded', function() {
             const usuarioLogado = localStorage.getItem('usuario');
-            return usuarioLogado || 'Convidado';
-        }
+            const usernameDisplay = document.getElementById('usernameDisplay');
 
-        // Exibir username na tela
-        document.getElementById('usernameDisplay').innerText = getUsernameLogado();
-
-        // Funcao para editar usuario
-        function editarUsuario(id) {
-            const usuario = usuarios.find(u => u.id === id);
-            if (!usuario) return;
-
-            const novoNome = prompt('Editar nome:', usuario.nome);
-            if (novoNome === null || novoNome.trim() === '') return;
-
-            usuario.nome = novoNome.trim();
-            localStorage.setItem('usuarios', JSON.stringify(usuarios));
-            carregarUsuarios();
-        }
-
-        // Funcao para excluir usuario
-        function excluirUsuario(id) {
-            if (confirm('Tem certeza que deseja excluir este usuario?')) {
-                usuarios = usuarios.filter(u => u.id !== id);
-                localStorage.setItem('usuarios', JSON.stringify(usuarios));
-                carregarUsuarios();
+            if (usuarioLogado) {
+                usernameDisplay.innerText = usuarioLogado;
+            } else {
+                usernameDisplay.innerText = 'Convidado';
             }
+        });
+
+        // Função para salvar perfil
+        function salvarPerfil() {
+            const nome = document.getElementById('nome').value.trim();
+            const nomecompleto = document.getElementById('nomecompleto').value.trim();
+
+            if (nomecompleto === '') {
+                showError('Por favor, digite o nome completo');
+                return;
+            }
+
+            // Salvar nome completo no localStorage como o usuario logado
+            localStorage.setItem('usuario', nomecompleto);
+
+            // Atualizar display na tela
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            usernameDisplay.innerText = nomecompleto;
+
+            // Mostrar mensagem de sucesso
+            showSuccess('Perfil salvo com sucesso!');
+
+            // Pequeno delay para mostrar a mensagem, depois redirecionar ou esconder
+            setTimeout(function() {
+                // Podemos manter na página ou redirecionar
+                // window.location.href = 'portifolio.html'; // Descomente se quiser redirecionar
+            }, 1500);
         }
 
-        // Inicializar ao carregar pagina
-        carregarUsuarios();
+        // Função para mostrar erro
+        function showError(msg) {
+            const area = document.getElementById('alertArea');
+            area.innerHTML = '<div class="error-message">' + msg + '</div>';
+            area.style.display = 'block';
+        }
+
+        // Função para mostrar sucesso
+        function showSuccess(msg) {
+            const area = document.getElementById('alertArea');
+            area.innerHTML = '<div class="success-message">' + msg + '</div>';
+            area.style.display = 'block';
+
+            // Esconder após 3 segundos
+            setTimeout(function() {
+                area.style.display = 'none';
+            }, 3000);
+        }
     </script>
 
 </body>
