@@ -9,7 +9,7 @@
 
 <body onload="carregarDados()">
     <div> Seja Bem Vindo 
-        <span id="labelLogin">Ramon Silva</span>
+        <span id="labelLogin">XXX</span>
     </div>
 
     <form>
@@ -24,7 +24,12 @@
 
     <script>
         const carregarDados = () => {
-            document.getElementById("labelLogin").innerText = "Ramon Silva"
+            document.getElementById("labelLogin").innerText 
+                = localStorage.getItem("usuario")
+        }
+        const salvarDados = () => {
+            nomeUsuario = document.getElementById("nome").value
+            localStorage.setItem("usuario", nomeUsuario)
         }
     </script>
 </body>

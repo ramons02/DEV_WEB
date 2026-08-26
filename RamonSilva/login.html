@@ -333,6 +333,7 @@
             } else {
                 if (usuario === "1" && senha === "1") {
                     alert('Vamos entrar');
+                    localStorage.setItem("usuario", usuario);
                     document.location.href = "arearestrita.htm";
                 } else {
                     alert('Dados Errados');
