@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Restrita</title>
+</head>
+
+<body onload="carregarDados()">
+    <div> Seja Bem Vindo 
+        <span id="labelLogin">Ramon Silva</span>
+    </div>
+
+    <form>
+        <label for="nome">Nome</label>
+        <input id="nome" type="text" placeholder="Digite seu nome" value="Ramon Silva">
+    </form>
+    <br>
+    <form>
+        <label for="nomeCompleto">Nome Completo</label>
+        <input id="nomeCompleto" type="text" placeholder="Digite seu nome" value="Ramon Silva">
+    </form>
+
+    <script>
+        const carregarDados = () => {
+            document.getElementById("labelLogin").innerText = "Ramon Silva"
+        }
+    </script>
+</body>
+
+</html>
