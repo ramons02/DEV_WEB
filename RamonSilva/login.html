@@ -288,13 +288,7 @@
                 <label for="usuario">Usuário ou E-mail</label>
                 <div class="input-wrapper">
                     <span class="input-icon">👤</span>
-                    <input
-                        type="text"
-                        id="usuario"
-                        name="usuario"
-                        placeholder="Digite seu usuário ou e-mail"
-                        required
-                    >
+                    <input type="text" id="usuario" name="usuario" placeholder="Digite seu usuário ou e-mail" required>
                 </div>
             </div>
 
@@ -302,13 +296,7 @@
                 <label for="senha">Senha</label>
                 <div class="input-wrapper">
                     <span class="input-icon">🔐</span>
-                    <input
-                        type="password"
-                        id="senha"
-                        name="senha"
-                        placeholder="Digite sua senha"
-                        required
-                    >
+                    <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
                     <button type="button" class="toggle-password" id="togglePassword">👁️</button>
                 </div>
             </div>
@@ -321,7 +309,7 @@
                 <a href="#" class="forgot-password">Esqueceu a senha?</a>
             </div>
 
-            <div  class="login-button" onclick="login()">Entrar</div>
+            <div class="login-button" onclick="login()">Entrar</div>
 
         </form>
 
@@ -333,19 +321,30 @@
 
     <script>
         const login = () => {
-    
-        const usuario = 
-        document.getElementById("usuario").value;
-        const senha = 
-        document.getElementById("senha").value;
 
-        alert(usuario);
-        alert(senha);
-    
-    }
+            const usuario =
+                document.getElementById("usuario").value;
+            const senha =
+                document.getElementById("senha").value;
+
+
+            if ((usuario == "") || (senha == "")) {
+                alert("Digite os dados");
+            } else {
+                if (usuario === "1" && senha === "1") {
+                    alert('Vamos entrar');
+                    document.location.href = "/arearestrita.htm";
+                } else {
+                    alert('Dados Errados');
+                }
+            }
+
+
+
+        }
 
         // // Arrow function 
-        // const/let  nome =(listaDePArametros) => { 
+        // const/let  nome =(listaDePArametros) => {
         //     // digite o seu codigo qui
         // }
     </script>
