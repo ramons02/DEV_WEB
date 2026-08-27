@@ -23,24 +23,50 @@
         <input id="nomeCompleto" type="text"
             placeholder="Digite o seu nome completo"/>
         <br>
+        <label for="curso">Curso</label>
+        <input id="curso" type="text"
+            placeholder="Ex: Discente em Análise e Desenvolvimento de Sistemas"/>
+        <br>
         <span onClick="salvarDados()">Salvar</span>
     </form>
 
     <span onClick="carregarDados()">Carregar</span>
     <script>
+        // Padrão do professor - objeto portifolio
         let portifolio = {};
+        
+        // Função salvar - salva os dados no LocalStorage
         const salvarDados = () => {
-            portifolio.nome = document.getElementById("nome").value;
-            portifolio.nomeCompleto = document.getElementById("nomeCompleto").value;
-
+            // Pega os valores dos inputs
+            const nome = document.getElementById("nome").value;
+            const nomeCompleto = document.getElementById("nomeCompleto").value;
+            const curso = document.getElementById("curso").value;
+            
+            // Salva no objeto portifolio
+            portifolio.nome = nome;
+            portifolio.nomeCompleto = nomeCompleto;
+            portifolio.curso = curso;
+            
+            // Converte para JSON e salva no LocalStorage
             const objetoConvertido = JSON.stringify(portifolio);
-            localStorage.setItem("portifolio", objetoConvertido )
- 
+            localStorage.setItem("portifolio", objetoConvertido);
+            
+            // Salva também o nome na chave 'usuario' para o portfólio ler
+            localStorage.setItem("usuario", nomeCompleto || nome);
         }
+        
+        // Função carregar - reflete o nome no span
         const carregarDados = () => {
-            document.getElementById("labelLogin").innerText 
-                        = localStorage.getItem("usuario")
+            const usuario = localStorage.getItem("usuario");
+            const labelLogin = document.getElementById("labelLogin");
+            if (usuario) {
+                labelLogin.innerText = usuario;
+            } else {
+                labelLogin.innerText = "XXX";
+            }
         }
+        
+        // Quando a página carregar, já chama a função carregarDados
         window.onload = function () {
             carregarDados();
         };
