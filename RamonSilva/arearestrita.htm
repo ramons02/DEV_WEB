@@ -30,6 +30,11 @@
             <input type="text" id="nomecompleto" placeholder="Nome completo">
         </div>
 
+        <div class="form-group">
+            <label for="curso">Curso/Formação</label>
+            <input type="text" id="curso" placeholder="Ex: Discente em Análise e Desenvolvimento de Sistemas">
+        </div>
+
         <button class="btn btn-primary" onclick="salvarPerfil()">Salvar Perfil</button>
     </div>
 
@@ -50,14 +55,18 @@
         function salvarPerfil() {
             const nome = document.getElementById('nome').value.trim();
             const nomecompleto = document.getElementById('nomecompleto').value.trim();
+            const curso = document.getElementById('curso').value.trim();
 
-            if (nomecompleto === '') {
-                showError('Por favor, digite o nome completo');
+            if (nomecompleto === '' || curso === '') {
+                showError('Por favor, preencha o nome completo e o curso');
                 return;
             }
 
             // Salvar nome completo no localStorage como o usuario logado
             localStorage.setItem('usuario', nomecompleto);
+            
+            // Salvar curso também
+            localStorage.setItem('curso', curso);
 
             // Atualizar display na tela
             const usernameDisplay = document.getElementById('usernameDisplay');
