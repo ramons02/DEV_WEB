@@ -53,6 +53,9 @@
             
             // Salva também o nome na chave 'usuario' para o portfólio ler
             localStorage.setItem("usuario", nomeCompleto || nome);
+            
+            // Aviso para confirmar que funcionou
+            alert('Dados salvos! Nome: ' + (nomeCompleto || nome));
         }
         
         // Função carregar - reflete o nome no span
