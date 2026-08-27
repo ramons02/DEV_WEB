@@ -4,102 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Area Restrita - Perfil</title>
-    
+    <title>Area Restrita</title>
 </head>
 
 <body>
 
-    <div class="container">
-        <!-- Welcome Section -->
-        <div class="welcome-section">
-            <h1>Area Restrita</h1>
-            <p class="welcome-text">Seja bem vindo, <span id="usernameDisplay">Usuario</span></p>
-
-            <div id="alertArea"></div>
-        </div>
-
-        <!-- Profile Form -->
-        <div class="form-group">
-            <label for="nome">Nome</label>
-            <input type="text" id="nome" placeholder="Primeiro nome">
-        </div>
-
-        <div class="form-group">
-            <label for="nomecompleto">Nome Completo</label>
-            <input type="text" id="nomecompleto" placeholder="Nome completo">
-        </div>
-
-        <div class="form-group">
-            <label for="curso">Curso/Formação</label>
-            <input type="text" id="curso" placeholder="Ex: Discente em Análise e Desenvolvimento de Sistemas">
-        </div>
-
-        <button class="btn btn-primary" onclick="salvarPerfil()">Salvar Perfil</button>
+    <div>
+        Seja bem vindo 
+        <span id="labelLogin">XXX</span>
     </div>
 
+    <form>
+        <label for="nome">Nome</label>
+        <input id="nome" type="text"
+            placeholder="Digite o seu nome"/>
+        <br>
+        <label for="nomeCompleto">Nome completo</label>
+        <input id="nomeCompleto" type="text"
+            placeholder="Digite o seu nome completo"/>
+        <br>
+        <span onClick="salvarDados()">Salvar</span>
+    </form>
+
+    <span onClick="carregarDados()">Carregar</span>
     <script>
-        // Verificar se usuario já está logado e exibir nome
-        document.addEventListener('DOMContentLoaded', function() {
-            const usuarioLogado = localStorage.getItem('usuario');
-            const usernameDisplay = document.getElementById('usernameDisplay');
+        let portifolio = {};
+        const salvarDados = () => {
+            portifolio.nome = document.getElementById("nome").value;
+            portifolio.nomeCompleto = document.getElementById("nomeCompleto").value;
 
-            if (usuarioLogado) {
-                usernameDisplay.innerText = usuarioLogado;
-            } else {
-                usernameDisplay.innerText = 'Convidado';
-            }
-        });
-
-        // Função para salvar perfil
-        function salvarPerfil() {
-            const nome = document.getElementById('nome').value.trim();
-            const nomecompleto = document.getElementById('nomecompleto').value.trim();
-            const curso = document.getElementById('curso').value.trim();
-
-            if (nomecompleto === '' || curso === '') {
-                showError('Por favor, preencha o nome completo e o curso');
-                return;
-            }
-
-            // Salvar nome completo no localStorage como o usuario logado
-            localStorage.setItem('usuario', nomecompleto);
-            
-            // Salvar curso também
-            localStorage.setItem('curso', curso);
-
-            // Atualizar display na tela
-            const usernameDisplay = document.getElementById('usernameDisplay');
-            usernameDisplay.innerText = nomecompleto;
-
-            // Mostrar mensagem de sucesso
-            showSuccess('Perfil salvo com sucesso!');
-
-            // Pequeno delay para mostrar a mensagem, depois redirecionar ou esconder
-            setTimeout(function() {
-                // Podemos manter na página ou redirecionar
-                // window.location.href = 'portifolio.html'; // Descomente se quiser redirecionar
-            }, 1500);
+            const objetoConvertido = JSON.stringify(portifolio);
+            localStorage.setItem("portifolio", objetoConvertido )
+ 
         }
-
-        // Função para mostrar erro
-        function showError(msg) {
-            const area = document.getElementById('alertArea');
-            area.innerHTML = '<div class="error-message">' + msg + '</div>';
-            area.style.display = 'block';
+        const carregarDados = () => {
+            document.getElementById("labelLogin").innerText 
+                        = localStorage.getItem("usuario")
         }
-
-        // Função para mostrar sucesso
-        function showSuccess(msg) {
-            const area = document.getElementById('alertArea');
-            area.innerHTML = '<div class="success-message">' + msg + '</div>';
-            area.style.display = 'block';
-
-            // Esconder após 3 segundos
-            setTimeout(function() {
-                area.style.display = 'none';
-            }, 3000);
-        }
+        window.onload = function () {
+            carregarDados();
+        };
     </script>
 
 </body>
